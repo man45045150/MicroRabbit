@@ -1,0 +1,69 @@
+{
+  "format": 1,
+  "restore": {
+    "E:\\Work@Home\\MQ\\MicroRabbit2\\MicroRabbit.MVC\\MicroRabbit.MVC.csproj": {}
+  },
+  "projects": {
+    "E:\\Work@Home\\MQ\\MicroRabbit2\\MicroRabbit.MVC\\MicroRabbit.MVC.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Work@Home\\MQ\\MicroRabbit2\\MicroRabbit.MVC\\MicroRabbit.MVC.csproj",
+        "projectName": "MicroRabbit.MVC",
+        "projectPath": "E:\\Work@Home\\MQ\\MicroRabbit2\\MicroRabbit.MVC\\MicroRabbit.MVC.csproj",
+        "packagesPath": "C:\\Users\\man45\\.nuget\\packages\\",
+        "outputPath": "E:\\Work@Home\\MQ\\MicroRabbit2\\MicroRabbit.MVC\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "c:\\program files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\man45\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "dependencies": {
+            "Microsoft.AspNetCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            },
+            "Microsoft.AspNetCore.Razor.Design": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    }
+  }
+}
