@@ -20,13 +20,15 @@ namespace MicroRabbit.Infra.Bus
         private readonly Dictionary<string, List<Type>> _handlers;
         private readonly List<Type> _eventTypes;
         private readonly IServiceScopeFactory _serviceScopeFactory;
+        private readonly IConnectionFactory _factory;
 
-        public RabbitMQBus(IMediator mediator, IServiceScopeFactory serviceScopeFactory)
+        public RabbitMQBus(IMediator mediator, IServiceScopeFactory serviceScopeFactory,IConnectionFactory factory)
         {
             _mediator = mediator;
             _serviceScopeFactory = serviceScopeFactory;
             _handlers = new Dictionary<string, List<Type>>();
             _eventTypes = new List<Type>();
+            _factory = factory;
         }
 
         public Task SendCommand<T>(T command) where T : Command
@@ -37,13 +39,13 @@ namespace MicroRabbit.Infra.Bus
         public void Publish<T>(T @event) where T : Event
         {
             // var factory = new ConnectionFactory() { HostName = "localhost" };
-            var factory = new ConnectionFactory{
-                HostName = "Home160-Server",
-                Port = 5672,
-                UserName = "admin",
-                Password = "SynHome@160"
-            };
-            using (var connection = factory.CreateConnection())
+            // var factory = new ConnectionFactory{
+            //     HostName = "Home160-Server",
+            //     Port = 5672,
+            //     UserName = "admin",
+            //     Password = "SynHome@160"
+            // };
+            using (var connection = _factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
                 var eventName = @event.GetType().Name;
@@ -93,15 +95,15 @@ namespace MicroRabbit.Infra.Bus
             //     HostName = "localhost",
             //     DispatchConsumersAsync = true
             // };
-            var factory = new ConnectionFactory{
-                HostName = "Home160-Server",
-                Port = 5672,
-                UserName = "admin",
-                Password = "SynHome@160",
-                DispatchConsumersAsync = true
-            };
+            // var factory = new ConnectionFactory{
+            //     HostName = "Home160-Server",
+            //     Port = 5672,
+            //     UserName = "admin",
+            //     Password = "SynHome@160",
+            //     DispatchConsumersAsync = true
+            // };
 
-            var connection = factory.CreateConnection();
+            var connection = _factory.CreateConnection();
             var channel = connection.CreateModel();
 
             var eventName = typeof(T).Name;
