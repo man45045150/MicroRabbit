@@ -39,7 +39,7 @@ namespace MicroRabbit.Banking.Api
                 )
             );
             var RabbitMqSettings = Configuration.GetSection("RabbitMqSettings");
-            services.AddSingleton<IConnectionFactory>(c =>
+            services.AddTransient<IConnectionFactory>(c =>
                 new ConnectionFactory{
                     HostName = RabbitMqSettings["HostName"],
                     Port = int.Parse(RabbitMqSettings["Port"]),
