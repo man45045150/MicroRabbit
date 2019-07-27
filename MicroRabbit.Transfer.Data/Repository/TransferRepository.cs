@@ -37,7 +37,7 @@ namespace MicroRabbit.Transfer.Data.Repository
         {
             using (IDbConnection conn = _con)
             {
-                string sQuery = "SELECT Id, FromAccount, ToAccount, TransferAmount FROM TransferLog";
+                string sQuery = "SELECT Id, FromAccount, ToAccount, TransferAmount FROM TransferLogs";
                 conn.Open();
                 return conn.Query<TransferLog>(sQuery);                
             }

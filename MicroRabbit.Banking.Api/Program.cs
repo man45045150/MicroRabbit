@@ -23,7 +23,7 @@ namespace MicroRabbit.Banking.Api
                     new ConfigurationBuilder()
                     .SetBasePath(Directory.GetCurrentDirectory())
                     .AddJsonFile("appsettings.json",false)
-                    .AddJsonFile("appsettings.Development.json",false)
+                    .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json",false)
                     .AddCommandLine(args)
                     .Build()
                 )

@@ -19,6 +19,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using RabbitMQ.Client;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace MicroRabbit.Transfer.Api
@@ -42,8 +43,17 @@ namespace MicroRabbit.Transfer.Api
             // );
             services.AddTransient<ITransferRepository>(c=> 
                 new TransferRepository(
-                    new SqlConnection(Configuration.GetConnectionString("BankingDbConnection"))
+                    new SqlConnection(Configuration.GetConnectionString("TransferDbConnection"))
                 )
+            );
+            var RabbitMqSettings = Configuration.GetSection("RabbitMqSettings");
+            services.AddSingleton<IConnectionFactory>(c =>
+                new ConnectionFactory{
+                    HostName = RabbitMqSettings["HostName"],
+                    Port = int.Parse(RabbitMqSettings["Port"]),
+                    UserName = RabbitMqSettings["UserName"],
+                    Password = RabbitMqSettings["Password"]
+                }
             );
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
