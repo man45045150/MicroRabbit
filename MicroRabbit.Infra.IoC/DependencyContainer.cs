@@ -7,6 +7,7 @@ using MicroRabbit.Banking.Domain.Commands;
 using MicroRabbit.Banking.Domain.Interfaces;
 using MicroRabbit.Domain.Core.Bus;
 using MicroRabbit.Infra.Bus;
+using MicroRabbit.Infra.Bus.Models;
 using MicroRabbit.Transfer.Application.Interfaces;
 using MicroRabbit.Transfer.Application.Services;
 using MicroRabbit.Transfer.Data.Repository;
@@ -29,7 +30,7 @@ namespace MicroRabbit.Infra.IoC
             services.AddSingleton<IEventBus, RabbitMQBus>(sp =>
             {
                 var scopeFactory = sp.GetRequiredService<IServiceScopeFactory>();
-                return new RabbitMQBus(sp.GetService<IMediator>(), scopeFactory,sp.GetService<IConnectionFactory>());
+                return new RabbitMQBus(sp.GetService<IMediator>(), scopeFactory,sp.GetService<RabbitMqSettings>());
             });
 
             //Subscriptions

@@ -2,6 +2,7 @@
 using MicroRabbit.Domain.Core.Bus;
 using MicroRabbit.Domain.Core.Commands;
 using MicroRabbit.Domain.Core.Events;
+using MicroRabbit.Infra.Bus.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -20,13 +21,13 @@ namespace MicroRabbit.Infra.Bus
         private readonly Dictionary<string, List<Type>> _handlers;
         private readonly List<Type> _eventTypes;
         private readonly IServiceScopeFactory _serviceScopeFactory;
-        private readonly IConnectionFactory _factory;
+        private readonly RabbitMqSettings _rabbitMqSettings;
 
-        public RabbitMQBus(IMediator mediator, IServiceScopeFactory serviceScopeFactory,IConnectionFactory factory)
+        public RabbitMQBus(IMediator mediator, IServiceScopeFactory serviceScopeFactory,RabbitMqSettings rabbitMqSettings)
         {
             _mediator = mediator;
             _serviceScopeFactory = serviceScopeFactory;
-            _factory = factory;
+            _rabbitMqSettings = rabbitMqSettings;
             _handlers = new Dictionary<string, List<Type>>();
             _eventTypes = new List<Type>();
         }
@@ -39,11 +40,11 @@ namespace MicroRabbit.Infra.Bus
         public void Publish<T>(T @event) where T : Event
         {
             // var factory = new ConnectionFactory() { HostName = "localhost" };
-            var factory = new ConnectionFactory{
-                HostName = "Home160-Server",
-                Port = 5672,
-                UserName = "admin",
-                Password = "SynHome@160"
+             var factory = new ConnectionFactory{
+                HostName = _rabbitMqSettings.HostName,
+                Port = _rabbitMqSettings.Port,
+                UserName = _rabbitMqSettings.UserName,
+                Password = _rabbitMqSettings.Password
             };
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
@@ -96,10 +97,10 @@ namespace MicroRabbit.Infra.Bus
             //     DispatchConsumersAsync = true
             // };
             var factory = new ConnectionFactory{
-                HostName = "Home160-Server",
-                Port = 5672,
-                UserName = "admin",
-                Password = "SynHome@160",
+                HostName = _rabbitMqSettings.HostName,
+                Port = _rabbitMqSettings.Port,
+                UserName = _rabbitMqSettings.UserName,
+                Password = _rabbitMqSettings.Password,
                 DispatchConsumersAsync = true
             };
 
@@ -127,6 +128,7 @@ namespace MicroRabbit.Infra.Bus
             }
             catch (Exception ex)
             {
+                throw ex;
             }
         }
 

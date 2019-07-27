@@ -18,6 +18,7 @@ using MicroRabbit.Banking.Domain.Interfaces;
 using MicroRabbit.Banking.Data.Repository;
 using System.Data.SqlClient;
 using RabbitMQ.Client;
+using MicroRabbit.Infra.Bus.Models;
 
 namespace MicroRabbit.Banking.Api
 {
@@ -38,14 +39,8 @@ namespace MicroRabbit.Banking.Api
                     new SqlConnection(Configuration.GetConnectionString("BankingDbConnection"))
                 )
             );
-            var RabbitMqSettings = Configuration.GetSection("RabbitMqSettings");
-            services.AddTransient<IConnectionFactory>(c =>
-                new ConnectionFactory{
-                    HostName = RabbitMqSettings["HostName"],
-                    Port = int.Parse(RabbitMqSettings["Port"]),
-                    UserName = RabbitMqSettings["UserName"],
-                    Password = RabbitMqSettings["Password"]
-                }
+            services.AddSingleton<RabbitMqSettings>(
+                Configuration.GetSection("RabbitMqSettings").Get<RabbitMqSettings>()
             );
             
 

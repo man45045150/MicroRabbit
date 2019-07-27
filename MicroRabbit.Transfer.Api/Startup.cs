@@ -21,6 +21,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using Swashbuckle.AspNetCore.Swagger;
+using MicroRabbit.Infra.Bus.Models;
 
 namespace MicroRabbit.Transfer.Api
 {
@@ -30,7 +31,6 @@ namespace MicroRabbit.Transfer.Api
         {
             Configuration = configuration;
         }
-
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -41,20 +41,15 @@ namespace MicroRabbit.Transfer.Api
             //     options.UseSqlServer(Configuration.GetConnectionString("TransferDbConnection"));
             // }
             // );
-            services.AddTransient<ITransferRepository>(c=> 
+            services.AddTransient<ITransferRepository>(c =>
                 new TransferRepository(
                     new SqlConnection(Configuration.GetConnectionString("TransferDbConnection"))
                 )
             );
-            var RabbitMqSettings = Configuration.GetSection("RabbitMqSettings");
-            services.AddTransient<IConnectionFactory>(c =>
-                new ConnectionFactory{
-                    HostName = RabbitMqSettings["HostName"],
-                    Port = int.Parse(RabbitMqSettings["Port"]),
-                    UserName = RabbitMqSettings["UserName"],
-                    Password = RabbitMqSettings["Password"]
-                }
+            services.AddSingleton<RabbitMqSettings>(
+                Configuration.GetSection("RabbitMqSettings").Get<RabbitMqSettings>()
             );
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
