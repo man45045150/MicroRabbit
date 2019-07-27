@@ -14,11 +14,27 @@ namespace MicroRabbit.Banking.Api
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            BuildWebHost(args).Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+        public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+                .UseConfiguration(
+                    new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json",false)
+                    .AddJsonFile("appsettings.Development.json",false)
+                    .AddCommandLine(args)
+                    .Build()
+                )
+                .UseStartup<Startup>()
+                .Build();
+                // .ConfigureAppConfiguration((hostingContext, config) =>
+                // {
+                //     config.SetBasePath(Directory.GetCurrentDirectory());
+                //     config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: false);
+                //     config.AddCommandLine(args);                    
+                // })
+                // .UseStartup<Startup>();
     }
 }

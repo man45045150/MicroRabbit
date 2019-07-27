@@ -37,7 +37,8 @@ namespace MicroRabbit.Banking.Api
                 new AccountRepository(
                     new SqlConnection(Configuration.GetConnectionString("BankingDbConnection"))
                 )
-             );
+            );
+            var RabbitMqSettings = Configuration.GetSection("RabbitMqSettings");
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
