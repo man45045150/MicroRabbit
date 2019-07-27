@@ -9,7 +9,6 @@ using MicroRabbit.Domain.Core.Bus;
 using MicroRabbit.Infra.Bus;
 using MicroRabbit.Transfer.Application.Interfaces;
 using MicroRabbit.Transfer.Application.Services;
-using MicroRabbit.Transfer.Data.Context;
 using MicroRabbit.Transfer.Data.Repository;
 using MicroRabbit.Transfer.Domain.EventHandlers;
 using MicroRabbit.Transfer.Domain.Events;
@@ -44,7 +43,7 @@ namespace MicroRabbit.Infra.IoC
 
             //Application Services
             services.AddTransient<IAccountService, AccountService>();
-            // services.AddTransient<ITransferService, TransferService>();
+            services.AddTransient<ITransferService, TransferService>();
 
             //Data
             // services.AddTransient<ITransferRepository, TransferRepository>();
